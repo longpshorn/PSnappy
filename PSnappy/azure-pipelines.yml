@@ -1,0 +1,50 @@
+name: 'PSnappy_$(Year:yyyy).$(Month).$(DayOfMonth).$(Rev:r)'
+
+trigger:
+  branches:
+    include:
+    - master
+  paths:
+    include:
+    - src/PSnappy/*
+
+variables:
+  configuration: Release
+  project: PSnappy.csproj
+
+pool:
+  name: TRACK
+
+steps:
+- checkout: self
+  clean: true
+
+- task: DotNetCoreCLI@2
+  displayName: dotnet build $(project)
+  inputs:
+    command: 'build'
+    projects: '**/$(project)'
+    configuration: $(configuration)
+
+- ${{ if eq(variables['Build.SourceBranchName'], 'master') }}:
+  - task: DotNetCoreCLI@2
+    displayName: dotnet pack $(project)
+    inputs:
+      command: 'pack'
+      packagesToPack: '**/$(project)'
+      versioningScheme: 'byBuildNumber'
+      configuration: $(configuration)
+
+  - task: DotNetCoreCLI@2
+    displayName: dotnet nuget push
+    inputs:
+      command: 'push'
+      packagesToPush: '$(Build.ArtifactStagingDirectory)/*.symbols.nupkg'
+      nuGetFeedType: 'internal'
+      publishVstsFeed: 'TRACK'
+
+  - task: PublishSymbols@2
+    displayName: Publish Symbols
+    inputs:
+      SearchPattern: '**/bin/**/*.pdb'
+      SymbolServerType: 'TeamServices'

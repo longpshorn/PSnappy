@@ -1,0 +1,12 @@
+C:\git\PSnappy\PSnappy.Jobs.TotalM1VisualizationResults\obj\Debug\netstandard2.0\PSnappy.Jobs.TotalM1VisualizationResults.csprojAssemblyReference.cache
+C:\git\PSnappy\PSnappy.Jobs.TotalM1VisualizationResults\obj\Debug\netstandard2.0\PSnappy.Jobs.TotalM1VisualizationResults.AssemblyInfoInputs.cache
+C:\git\PSnappy\PSnappy.Jobs.TotalM1VisualizationResults\obj\Debug\netstandard2.0\PSnappy.Jobs.TotalM1VisualizationResults.AssemblyInfo.cs
+C:\git\PSnappy\PSnappy.Jobs.TotalM1VisualizationResults\obj\Debug\netstandard2.0\PSnappy.Jobs.TotalM1VisualizationResults.csproj.CoreCompileInputs.cache
+C:\git\PSnappy\PSnappy.Jobs.TotalM1VisualizationResults\bin\Debug\netstandard2.0\PSnappy.Jobs.TotalM1VisualizationResults.deps.json
+C:\git\PSnappy\PSnappy.Jobs.TotalM1VisualizationResults\bin\Debug\netstandard2.0\PSnappy.Jobs.TotalM1VisualizationResults.dll
+C:\git\PSnappy\PSnappy.Jobs.TotalM1VisualizationResults\bin\Debug\netstandard2.0\PSnappy.Jobs.TotalM1VisualizationResults.pdb
+C:\git\PSnappy\PSnappy.Jobs.TotalM1VisualizationResults\bin\Debug\netstandard2.0\PSnappy.dll
+C:\git\PSnappy\PSnappy.Jobs.TotalM1VisualizationResults\bin\Debug\netstandard2.0\PSnappy.pdb
+C:\git\PSnappy\PSnappy.Jobs.TotalM1VisualizationResults\obj\Debug\netstandard2.0\PSnappy.Jobs.TotalM1VisualizationResults.csproj.CopyComplete
+C:\git\PSnappy\PSnappy.Jobs.TotalM1VisualizationResults\obj\Debug\netstandard2.0\PSnappy.Jobs.TotalM1VisualizationResults.dll
+C:\git\PSnappy\PSnappy.Jobs.TotalM1VisualizationResults\obj\Debug\netstandard2.0\PSnappy.Jobs.TotalM1VisualizationResults.pdb
