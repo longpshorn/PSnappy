@@ -9,6 +9,21 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PSnappy", "PSnappy\PSnappy.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PSnappy.Jobs.TotalM1VisualizationResults", "PSnappy.Jobs.TotalM1VisualizationResults\PSnappy.Jobs.TotalM1VisualizationResults.csproj", "{42FA592B-6B38-409A-9736-F403D49B254C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{E0E6F64F-6178-453D-84BA-AE1079980085}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{A68A1A7D-3744-48BE-B289-5010888B116E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{D9A402C3-11EF-402E-B59C-0096CE2838B7}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\build.yml = .github\workflows\build.yml
+		.github\workflows\deploy.yml = .github\workflows\deploy.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,6 +45,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A68A1A7D-3744-48BE-B289-5010888B116E} = {E0E6F64F-6178-453D-84BA-AE1079980085}
+		{D9A402C3-11EF-402E-B59C-0096CE2838B7} = {A68A1A7D-3744-48BE-B289-5010888B116E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {62CD60D5-F039-4B59-96DC-760D8B2E50F3}

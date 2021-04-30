@@ -6,6 +6,17 @@
     <IncludeSymbols>true</IncludeSymbols>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <Authors>Patrick Smith</Authors>
+    <Description>PSnappy is a library that assists with the quick retrieval, calculation, and writing back of data to a MSSQL database.</Description>
+    <PackageId>PSnappy</PackageId>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/longpshorn/psnappy</RepositoryUrl>
+    <RepositoryType>Git</RepositoryType>
+    <PackageTags>MSSQL</PackageTags>
+    <PackageReleaseNotes>Initial release</PackageReleaseNotes>
+    <EnableSourceControlManagerQueries>false</EnableSourceControlManagerQueries>
   </PropertyGroup>
 
   <ItemGroup>
