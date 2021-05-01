@@ -1,40 +1,40 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <PackageDescription>This library contains base classes and a patterned approach for quickly reading data from and writing data to a database.</PackageDescription>
-    <IncludeSymbols>true</IncludeSymbols>
-    <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <EmbedUntrackedSources>true</EmbedUntrackedSources>
-    <Authors>Patrick Smith</Authors>
-    <Description>PSnappy is a library that assists with the quick retrieval, calculation, and writing back of data to a MSSQL database.</Description>
-    <PackageId>PSnappy</PackageId>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-    <RepositoryUrl>https://github.com/longpshorn/psnappy</RepositoryUrl>
-    <RepositoryType>Git</RepositoryType>
-    <PackageTags>MSSQL</PackageTags>
-    <PackageReleaseNotes>Initial release</PackageReleaseNotes>
-    <EnableSourceControlManagerQueries>false</EnableSourceControlManagerQueries>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
+        <PackageDescription>This library contains base classes and a patterned approach for quickly reading data from and writing data to a database.</PackageDescription>
+        <IncludeSymbols>true</IncludeSymbols>
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
+        <EmbedUntrackedSources>true</EmbedUntrackedSources>
+        <Authors>Patrick Smith</Authors>
+        <Description>PSnappy is a library that assists with the quick retrieval, calculation, and writing back of data to a MSSQL database.</Description>
+        <PackageId>PSnappy</PackageId>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+        <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+        <RepositoryUrl>https://github.com/longpshorn/psnappy</RepositoryUrl>
+        <RepositoryType>Git</RepositoryType>
+        <PackageTags>MSSQL</PackageTags>
+        <PackageReleaseNotes>Initial release</PackageReleaseNotes>
+        <EnableSourceControlManagerQueries>false</EnableSourceControlManagerQueries>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Autofac" Version="5.2.0" />
-    <PackageReference Include="Dapper" Version="2.0.35" />
-    <PackageReference Include="Microsoft.SourceLink.AzureRepos.Git" Version="1.0.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Autofac" Version="5.2.0" />
+        <PackageReference Include="Dapper" Version="2.0.35" />
+        <PackageReference Include="Microsoft.SourceLink.AzureRepos.Git" Version="1.0.0">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Common\" />
-    <Folder Include="DI\" />
-    <Folder Include="Logging\" />
-    <Folder Include="Models\" />
-    <Folder Include="Dataset\" />
-  </ItemGroup>
+    <ItemGroup>
+        <Folder Include="Common\" />
+        <Folder Include="DI\" />
+        <Folder Include="Logging\" />
+        <Folder Include="Models\" />
+        <Folder Include="Dataset\" />
+    </ItemGroup>
 
 </Project>
