@@ -338,3 +338,11 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+
+# Ignore bin and obj folders
+bin/
+obj/
+
+# Ignore all of the TotalM1VisualizationResults and the Cli folders
+PSnappy.Jobs.TotalM1VisualizationResults/
+PSnappy.Cli/
