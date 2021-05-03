@@ -15,8 +15,11 @@
         <RepositoryUrl>https://github.com/longpshorn/psnappy</RepositoryUrl>
         <RepositoryType>Git</RepositoryType>
         <PackageTags>MSSQL</PackageTags>
-        <PackageReleaseNotes>Initial release</PackageReleaseNotes>
+        <PackageReleaseNotes>Added overloaded constructor for RunOptions.</PackageReleaseNotes>
         <EnableSourceControlManagerQueries>false</EnableSourceControlManagerQueries>
+        <AssemblyVersion>1.0.1.0</AssemblyVersion>
+        <FileVersion>1.0.1.0</FileVersion>
+        <Version>1.0.1</Version>
     </PropertyGroup>
 
     <ItemGroup>

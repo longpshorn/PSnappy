@@ -11,6 +11,11 @@ namespace PSnappy
     {
         public Guid ProcessId { get; }
 
+        public RunOptions(IRunOptions runOptions)
+            : this(runOptions, runOptions.ProcessId)
+        {
+        }
+
         public RunOptions(ISqlOptions sqlOptions, Guid processId)
             : base(sqlOptions.Server, sqlOptions.Database, sqlOptions.UserName)
         {
