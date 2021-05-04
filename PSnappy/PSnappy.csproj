@@ -15,21 +15,21 @@
         <RepositoryUrl>https://github.com/longpshorn/psnappy</RepositoryUrl>
         <RepositoryType>Git</RepositoryType>
         <PackageTags>MSSQL</PackageTags>
-        <PackageReleaseNotes>Added overloaded constructor for RunOptions.</PackageReleaseNotes>
+        <PackageReleaseNotes>Updated BuildAsync to accept parameters. Added Build method to DatasetBuildHelper.</PackageReleaseNotes>
         <EnableSourceControlManagerQueries>false</EnableSourceControlManagerQueries>
-        <AssemblyVersion>1.0.1.0</AssemblyVersion>
-        <FileVersion>1.0.1.0</FileVersion>
-        <Version>1.0.1</Version>
+        <AssemblyVersion>1.0.2.0</AssemblyVersion>
+        <FileVersion>1.0.2.0</FileVersion>
+        <Version>1.0.2</Version>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Autofac" Version="5.2.0" />
-        <PackageReference Include="Dapper" Version="2.0.35" />
+        <PackageReference Include="Autofac" Version="6.2.0" />
+        <PackageReference Include="Dapper" Version="2.0.90" />
+        <PackageReference Include="Microsoft.Data.SqlClient" Version="2.1.2" />
         <PackageReference Include="Microsoft.SourceLink.AzureRepos.Git" Version="1.0.0">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
     </ItemGroup>
 
     <ItemGroup>
