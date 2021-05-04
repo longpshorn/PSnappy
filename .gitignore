@@ -346,3 +346,4 @@ obj/
 # Ignore all of the TotalM1VisualizationResults and the Cli folders
 PSnappy.Jobs.TotalM1VisualizationResults/
 PSnappy.Cli/
+.suo
