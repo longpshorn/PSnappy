@@ -15,7 +15,8 @@ namespace PSnappy
             Func<IEnumerable<T>, IDataReader> datareaderconverter,
             string server,
             string database,
-            string destinationtable
+            string destinationtable,
+            int sqlTimeout = 180
         );
     }
 
@@ -68,7 +69,8 @@ namespace PSnappy
             Func<IEnumerable<T>, IDataReader> datareaderconverter,
             string server,
             string database,
-            string destinationtable
+            string destinationtable,
+            int sqlTimeout = 180
         )
         {
             try
@@ -77,7 +79,7 @@ namespace PSnappy
 
                 var tasks = partitions.AsParallel()
                     .WithDegreeOfParallelism(_degreesofparallelism)
-                    .Select(x => Task.Run(async () => await BulkInsertAsync(x, datareaderconverter, server, database, destinationtable)))
+                    .Select(x => Task.Run(async () => await BulkInsertAsync(x, datareaderconverter, server, database, destinationtable, sqlTimeout)))
                     .ToArray();
                 await Task.WhenAll(tasks);
             }
@@ -93,10 +95,11 @@ namespace PSnappy
             Func<IEnumerable<T>, IDataReader> datareaderconverter,
             string server,
             string database,
-            string destinationtable
+            string destinationtable,
+            int sqlTimeout = 180
         )
         {
-            using (var conn = SqlServerHelper.GetConnection(server, database, 180))
+            using (var conn = SqlServerHelper.GetConnection(server, database, sqlTimeout))
             {
                 conn.Open();
                 await conn.BulkCopyAsync(datareaderconverter(items), destinationtable);
