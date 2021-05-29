@@ -10,8 +10,8 @@ namespace PSnappy
 {
     public interface IDatasetBuildHelper
     {
-        void Build(SqlConnection connection, string command, Action<IDataReader> BuildAction, Dictionary<string, object> parameters = null);
-        Task BuildAsync(SqlConnection connection, string command, Action<IDataReader> BuildAction, Dictionary<string, object> parameters = null);
+        void Build(SqlConnection connection, string command, Action<IDataReader> BuildAction, Dictionary<string, object> parameters = null, int commandTimeout = 30);
+        Task BuildAsync(SqlConnection connection, string command, Action<IDataReader> BuildAction, Dictionary<string, object> parameters = null, int commandTimeout = 30);
         int GetOrdinal(IDataReader reader, string fieldname);
     }
 
@@ -35,9 +35,9 @@ namespace PSnappy
             return ordinal;
         }
 
-        public void Build(SqlConnection connection, string command, Action<IDataReader> BuildAction, Dictionary<string, object> parameters = null)
+        public void Build(SqlConnection connection, string command, Action<IDataReader> BuildAction, Dictionary<string, object> parameters = null, int commandTimeout = 30)
         {
-            var reader = GetReader(connection, command, parameters);
+            var reader = GetReader(connection, command, parameters, commandTimeout);
             if (reader != null)
             {
                 BuildAction(reader);
@@ -46,9 +46,9 @@ namespace PSnappy
             }
         }
 
-        public async Task BuildAsync(SqlConnection connection, string command, Action<IDataReader> BuildAction, Dictionary<string, object> parameters = null)
+        public async Task BuildAsync(SqlConnection connection, string command, Action<IDataReader> BuildAction, Dictionary<string, object> parameters = null, int commandTimeout = 30)
         {
-            var reader = await GetReaderAsync(connection, command, parameters);
+            var reader = await GetReaderAsync(connection, command, parameters, commandTimeout);
             if (reader != null)
             {
                 BuildAction(reader);
@@ -56,11 +56,11 @@ namespace PSnappy
             }
         }
 
-        private IDataReader GetReader(SqlConnection connection, string command, Dictionary<string, object> parameters = null)
+        private IDataReader GetReader(SqlConnection connection, string command, Dictionary<string, object> parameters = null, int commandTimeout = 30)
         {
             try
             {
-                return ((DbDataReader)connection.ExecuteReader(command, parameters, commandTimeout: 30, commandType: CommandType.StoredProcedure))
+                return ((DbDataReader)connection.ExecuteReader(command, parameters, commandTimeout: commandTimeout, commandType: CommandType.StoredProcedure))
                     .ToSafeDataReader();
             }
             catch (Exception ex)
@@ -71,11 +71,11 @@ namespace PSnappy
             }
         }
 
-        private async Task<IDataReader> GetReaderAsync(SqlConnection connection, string command, Dictionary<string, object> parameters = null)
+        private async Task<IDataReader> GetReaderAsync(SqlConnection connection, string command, Dictionary<string, object> parameters = null, int commandTimeout = 30)
         {
             try
             {
-                return (await connection.ExecuteReaderAsync(command, parameters, commandTimeout: 30, commandType: CommandType.StoredProcedure))
+                return (await connection.ExecuteReaderAsync(command, parameters, commandTimeout: commandTimeout, commandType: CommandType.StoredProcedure))
                     .ToSafeDataReader();
             }
             catch (Exception ex)
