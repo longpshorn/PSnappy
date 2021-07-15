@@ -72,12 +72,11 @@ namespace PSnappy
         {
             var elapsed = TimeSpan.Zero;
 
-            var context = _scope.Resolve<IDatasetContext>();
             var committer = _scope.Resolve<IDatasetCommitter>();
 
             try
             {
-                elapsed = _timingHelper.TimeThis(() => committer.Commit(context));
+                elapsed = _timingHelper.TimeThis(() => committer.Commit());
             }
             catch (Exception ex)
             {
@@ -115,16 +114,14 @@ namespace PSnappy
             var elapsed = TimeSpan.Zero;
             bool result = false;
 
-            var context = _scope.Resolve<IDatasetContext>();
-
             try
             {
                 elapsed = await _timingHelper.TimeThisAsync(async () =>
                 {
-                    if (await BuildAsync(context))
+                    if (await BuildAsync())
                     {
-                        Calculate(context);
-                        await WriteAsync(context);
+                        Calculate();
+                        await WriteAsync();
 
                         result = true;
                     }
@@ -145,18 +142,13 @@ namespace PSnappy
             return result;
         }
 
-        private async Task<bool> BuildAsync(IDatasetContext context)
+        private async Task<bool> BuildAsync()
         {
-            if (context == null)
-            {
-                return false;
-            }
-
             var builder = _scope.Resolve<IDatasetBuilder>();
 
             try
             {
-                var elapsed = await _timingHelper.TimeThisAsync(async () => await builder.BuildAsync(context, _server, _database));
+                var elapsed = await _timingHelper.TimeThisAsync(async () => await builder.BuildAsync(_server, _database));
                 _logger.LogStatus("Dataset context constructed", elapsed);
 
                 return true;
@@ -169,65 +161,59 @@ namespace PSnappy
             }
         }
 
-        private void Calculate(IDatasetContext context)
+        private void Calculate()
         {
-            if (context != null)
+            var iserror = false;
+            var sw = Stopwatch.StartNew();
+            try
             {
-                var iserror = false;
-                var sw = Stopwatch.StartNew();
-                try
-                {
-                    var c = _scope.Resolve<IDatasetCalculator>();
-                    c.Calculate(context);
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogStatus("An error occured during calculation", StatusType.Error);
-                    _logger.LogStatus(ex.ToString());
-                    iserror = true;
-                }
+                var c = _scope.Resolve<IDatasetCalculator>();
+                c.Calculate();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogStatus("An error occured during calculation", StatusType.Error);
+                _logger.LogStatus(ex.ToString());
+                iserror = true;
+            }
 
-                sw.Stop();
+            sw.Stop();
 
-                if (iserror)
-                {
-                    _logger.LogStatus("Dataset calculated with errors", sw.Elapsed, StatusType.Error);
-                }
-                else
-                {
-                    _logger.LogStatus("Dataset calculated", sw.Elapsed);
-                }
+            if (iserror)
+            {
+                _logger.LogStatus("Dataset calculated with errors", sw.Elapsed, StatusType.Error);
+            }
+            else
+            {
+                _logger.LogStatus("Dataset calculated", sw.Elapsed);
             }
         }
 
-        private async Task WriteAsync(IDatasetContext context)
+        private async Task WriteAsync()
         {
-            if (context != null)
+            var iserror = false;
+            var sw = Stopwatch.StartNew();
+            try
             {
-                var iserror = false;
-                var sw = Stopwatch.StartNew();
-                try
-                {
-                    var w = _scope.Resolve<IDatasetWriter>();
-                    await w.SaveAsync(context, _server, _database);
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogStatus("An error occured while writing outputs", StatusType.Error);
-                    _logger.LogStatus(ex.ToString());
-                    iserror = true;
-                }
+                var w = _scope.Resolve<IDatasetWriter>();
+                await w.SaveAsync(_server, _database);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogStatus("An error occured while writing outputs", StatusType.Error);
+                _logger.LogStatus(ex.ToString());
+                iserror = true;
+            }
 
-                sw.Stop();
+            sw.Stop();
 
-                if (iserror)
-                {
-                    _logger.LogStatus("Output saved with errors", sw.Elapsed, StatusType.Error);
-                }
-                else
-                {
-                    _logger.LogStatus("Output saved", sw.Elapsed);
-                }
+            if (iserror)
+            {
+                _logger.LogStatus("Output saved with errors", sw.Elapsed, StatusType.Error);
+            }
+            else
+            {
+                _logger.LogStatus("Output saved", sw.Elapsed);
             }
         }
     }

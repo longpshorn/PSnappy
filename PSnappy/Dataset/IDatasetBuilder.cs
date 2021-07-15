@@ -4,6 +4,6 @@ namespace PSnappy
 {
     public interface IDatasetBuilder
     {
-        Task BuildAsync(IDatasetContext context, string server, string database);
+        Task BuildAsync(string server, string database);
     }
 }

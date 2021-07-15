@@ -5,6 +5,6 @@ namespace PSnappy
     public interface IDatasetWriter
     {
         void Reset(string server, string database);
-        Task SaveAsync(IDatasetContext dataset, string server, string database);
+        Task SaveAsync(string server, string database);
     }
 }

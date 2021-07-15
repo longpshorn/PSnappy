@@ -2,6 +2,6 @@
 {
     public interface IDatasetCalculator
     {
-        void Calculate(IDatasetContext context);
+        void Calculate();
     }
 }

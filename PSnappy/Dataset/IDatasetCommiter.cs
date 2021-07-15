@@ -2,6 +2,6 @@
 {
     public interface IDatasetCommitter
     {
-        void Commit(IDatasetContext context);
+        void Commit();
     }
 }
