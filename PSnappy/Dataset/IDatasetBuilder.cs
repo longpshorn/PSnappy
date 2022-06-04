@@ -9,6 +9,6 @@ namespace PSnappy
 
     public interface IDatasetBuilder<T>
     {
-        Task BuildAsync(T config);
+        Task BuildAsync(string connectionString, T config);
     }
 }
