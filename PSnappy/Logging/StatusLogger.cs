@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PSnappy.Common;
+using System;
 using System.Collections.Generic;
 
 namespace PSnappy
@@ -23,12 +24,17 @@ namespace PSnappy
         public IEnumerable<StatusEventArgs> StatusLog { get { return _status; } }
 
         private readonly object _thislock = new object();
+        private readonly ISqlHelper _sqlHelper;
         private readonly ISqlOptions _options;
         private string _processName;
         private Guid _processId;
 
-        public StatusLogger(ISqlOptions options)
+        public StatusLogger(
+            ISqlHelper sqlHelper,
+            ISqlOptions options
+        )
         {
+            _sqlHelper = sqlHelper;
             _options = options;
         }
 
@@ -39,7 +45,8 @@ namespace PSnappy
 
         public virtual void LogStatus(string message, TimeSpan elapsed, StatusType statustype = StatusType.Information)
         {
-            var e = new StatusEventArgs(statustype, _options.Server, _options.Database, message, elapsed);
+            var (server, database) = _sqlHelper.GetServerAndDatabaseFromConnectionString(_options.ConnectionString);
+            var e = new StatusEventArgs(statustype, server, database, message, elapsed);
             lock (_thislock)
             {
                 _status.Add(e);
@@ -60,10 +67,10 @@ namespace PSnappy
 
         private void SaveToProcessHistory(StatusEventArgs e)
         {
-            using (var c = SqlServerHelper.GetConnection(_options.Server, _options.Database))
+            using (var c = _sqlHelper.GetConnection(_options.ConnectionString))
             {
                 c.Open();
-                var sproc = SqlServerHelper.GetSPCommand("uspSaveProcessHistoryRecord", new Dictionary<string, object>()
+                var sproc = _sqlHelper.GetSPCommand("uspSaveProcessHistoryRecord", new Dictionary<string, object>()
                 {
                     { "@processName", _processName ?? "PSnappy" },
                     { "@historyType", e.StatusType.GetHistoryType() },

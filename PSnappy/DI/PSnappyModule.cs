@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using PSnappy.Common;
 
 namespace PSnappy
 {
@@ -22,6 +23,7 @@ namespace PSnappy
             builder.RegisterType<RunManager>().AsImplementedInterfaces().SingleInstance();
             builder.RegisterType<DatasetBuildHelper>().AsImplementedInterfaces().SingleInstance();
             builder.RegisterType<DatasetWriteHelper>().AsImplementedInterfaces().SingleInstance();
+            builder.RegisterType<SqlHelper>().AsImplementedInterfaces().SingleInstance();
         }
     }
 }

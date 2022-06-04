@@ -17,7 +17,7 @@ namespace PSnappy
         }
 
         public RunOptions(ISqlOptions sqlOptions, Guid processId)
-            : base(sqlOptions.Server, sqlOptions.Database, sqlOptions.UserName)
+            : base(sqlOptions.ConnectionString, sqlOptions.UserName)
         {
             this.ProcessId = processId;
         }

@@ -21,8 +21,7 @@ namespace PSnappy
         protected readonly IStatusLogger _logger;
         protected readonly ITimingHelper _timingHelper;
 
-        private readonly string _server;
-        private readonly string _database;
+        private readonly string _connectionString;
 
         public JobRunner(
             IRunOptions options,
@@ -31,8 +30,7 @@ namespace PSnappy
             ITimingHelper timingHelper
         )
         {
-            _server = options.Server;
-            _database = options.Database;
+            _connectionString = options.ConnectionString;
 
             _options = options;
             _scope = scope;
@@ -62,7 +60,7 @@ namespace PSnappy
 
         public static ContainerBuilder GetDefaultContainer(SqlJobArguments args)
         {
-            var sqlOptions = new SqlOptions(args.Server, args.Database, args.UserName);
+            var sqlOptions = new SqlOptions(args.ConnectionString, args.UserName);
             var cb = new ContainerBuilder();
             cb.RegisterModule(new PSnappyModule(sqlOptions));
             return cb;
@@ -97,7 +95,7 @@ namespace PSnappy
             var r = _scope.Resolve<IDatasetReporter>();
             try
             {
-                w.Reset(_server, _database);
+                w.Reset(_connectionString);
                 r.Clear();
             }
             catch (Exception ex)
@@ -148,14 +146,14 @@ namespace PSnappy
 
             try
             {
-                var elapsed = await _timingHelper.TimeThisAsync(async () => await builder.BuildAsync(_server, _database));
+                var elapsed = await _timingHelper.TimeThisAsync(async () => await builder.BuildAsync(_connectionString));
                 _logger.LogStatus("Dataset context constructed", elapsed);
 
                 return true;
             }
             catch (Exception ex)
             {
-                _logger.LogStatus(string.Format("Error constructing dataset context from {0}\\{1}", _server, _database), StatusType.Error);
+                _logger.LogStatus(string.Format("Error constructing dataset context from {0}", _connectionString), StatusType.Error);
                 _logger.LogStatus(ex.ToString());
                 return false;
             }
@@ -196,7 +194,7 @@ namespace PSnappy
             try
             {
                 var w = _scope.Resolve<IDatasetWriter>();
-                await w.SaveAsync(_server, _database);
+                await w.SaveAsync(_connectionString);
             }
             catch (Exception ex)
             {

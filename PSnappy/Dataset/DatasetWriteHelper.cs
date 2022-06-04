@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PSnappy.Common;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -9,12 +10,11 @@ namespace PSnappy
     public interface IDatasetWriteHelper
     {
         void Truncate(IDbConnection connection, string tablename);
-        Task ExecuteStoredProcedureAsync(string server, string database, string storedProcedureName, int spCommandTimeout = 30);
+        Task ExecuteStoredProcedureAsync(string connectionString, string storedProcedureName, int spCommandTimeout = 30);
         Task WriteAsync<T>(
             IEnumerable<T> items,
             Func<IEnumerable<T>, IDataReader> datareaderconverter,
-            string server,
-            string database,
+            string connectionString,
             string destinationtable,
             int sqlTimeout = 180
         );
@@ -22,22 +22,24 @@ namespace PSnappy
 
     public class DatasetWriteHelper : IDatasetWriteHelper
     {
-        private static readonly int _degreesofparallelism;
+        private readonly int _degreesofparallelism;
 
-        static DatasetWriteHelper()
+        private readonly ISqlHelper _sqlHelper;
+        protected readonly IStatusLogger _logger;
+
+        public DatasetWriteHelper(
+            IStatusLogger logger,
+            ISqlHelper sqlHelper
+        )
         {
+            _logger = logger;
+            _sqlHelper = sqlHelper;
+
             _degreesofparallelism = Environment.ProcessorCount;
             if (_degreesofparallelism > 8)
             {
                 _degreesofparallelism = 8;
             }
-        }
-
-        protected readonly IStatusLogger _logger;
-
-        public DatasetWriteHelper(IStatusLogger logger)
-        {
-            _logger = logger;
         }
 
         public void Truncate(IDbConnection connection, string tablename)
@@ -53,22 +55,18 @@ namespace PSnappy
             }
         }
 
-        public async Task ExecuteStoredProcedureAsync(string server, string database, string storedProcedureName, int spCommandTimeout = 30)
+        public async Task ExecuteStoredProcedureAsync(string connectionString, string storedProcedureName, int spCommandTimeout = 30)
         {
-            using (var conn = SqlServerHelper.GetConnection(server, database))
-            {
-                conn.Open();
-                var cmd = SqlServerHelper.GetSPCommand(storedProcedureName, null, spCommandTimeout);
-                cmd.Connection = conn;
-                await cmd.ExecuteNonQueryAsync();
-            }
+            using var conn = await _sqlHelper.GetOpenConnectionAsync(connectionString);
+            var cmd = _sqlHelper.GetSPCommand(storedProcedureName, null, spCommandTimeout);
+            cmd.Connection = conn;
+            await cmd.ExecuteNonQueryAsync();
         }
 
         public async Task WriteAsync<T>(
             IEnumerable<T> items,
             Func<IEnumerable<T>, IDataReader> datareaderconverter,
-            string server,
-            string database,
+            string connectionString,
             string destinationtable,
             int sqlTimeout = 180
         )
@@ -79,7 +77,7 @@ namespace PSnappy
 
                 var tasks = partitions.AsParallel()
                     .WithDegreeOfParallelism(_degreesofparallelism)
-                    .Select(x => Task.Run(async () => await BulkInsertAsync(x, datareaderconverter, server, database, destinationtable, sqlTimeout)))
+                    .Select(x => Task.Run(async () => await BulkInsertAsync(x, datareaderconverter, connectionString, destinationtable, sqlTimeout)))
                     .ToArray();
                 await Task.WhenAll(tasks);
             }
@@ -90,20 +88,16 @@ namespace PSnappy
             }
         }
 
-        private static async Task BulkInsertAsync<T>(
+        private async Task BulkInsertAsync<T>(
             IEnumerable<T> items,
             Func<IEnumerable<T>, IDataReader> datareaderconverter,
-            string server,
-            string database,
+            string connectionString,
             string destinationtable,
             int sqlTimeout = 180
         )
         {
-            using (var conn = SqlServerHelper.GetConnection(server, database, sqlTimeout))
-            {
-                conn.Open();
-                await conn.BulkCopyAsync(datareaderconverter(items), destinationtable);
-            }
+            using var conn = await _sqlHelper.GetOpenConnectionAsync(connectionString, sqlTimeout);
+            await conn.BulkCopyAsync(datareaderconverter(items), destinationtable);
         }
 
         private static IEnumerable<IEnumerable<T>> Partition<T>(IEnumerable<T> items, int partitions)

@@ -2,21 +2,18 @@
 {
     public interface ISqlOptions
     {
-        string Database { get; }
-        string Server { get; }
+        string ConnectionString { get; }
         string UserName { get; }
     }
 
     public class SqlOptions : ISqlOptions
     {
-        public string Server { get; }
-        public string Database { get; }
+        public string ConnectionString { get; }
         public string UserName { get; }
 
-        public SqlOptions(string server, string database, string userName)
+        public SqlOptions(string connectionString, string userName)
         {
-            this.Server = server;
-            this.Database = database;
+            this.ConnectionString = connectionString;
             this.UserName = !string.IsNullOrEmpty(userName) ? userName : "psnappy";
         }
     }
