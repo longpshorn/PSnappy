@@ -347,3 +347,4 @@ obj/
 PSnappy.Jobs.TotalM1VisualizationResults/
 PSnappy.Cli/
 .suo
+.vs
