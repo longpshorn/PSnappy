@@ -67,24 +67,22 @@ namespace PSnappy
 
         private void SaveToProcessHistory(StatusEventArgs e)
         {
-            using (var c = _sqlHelper.GetConnection(_options.ConnectionString))
-            {
-                c.Open();
-                var sproc = _sqlHelper.GetSPCommand("uspSaveProcessHistoryRecord", new Dictionary<string, object>()
-                {
-                    { "@processName", _processName ?? "PSnappy" },
-                    { "@historyType", e.StatusType.GetHistoryType() },
-                    { "@duration", e.Elapsed.TotalSeconds },
-                    { "@details", e.Status.Length <= 4000 ? e.Status : e.Status.Substring(0, 4000) },
-                    { "@userName", _options.UserName },
-                    { "@machineName", Environment.MachineName },
-                    { "@processId", _processId },
-                });
+            //using var c = _sqlHelper.GetConnection(_options.ConnectionString);
+            //c.Open();
+            //var sproc = _sqlHelper.GetSPCommand("uspSaveProcessHistoryRecord", new Dictionary<string, object>()
+            //    {
+            //        { "@processName", _processName ?? "PSnappy" },
+            //        { "@historyType", e.StatusType.GetHistoryType() },
+            //        { "@duration", e.Elapsed.TotalSeconds },
+            //        { "@details", e.Status.Length <= 4000 ? e.Status : e.Status.Substring(0, 4000) },
+            //        { "@userName", _options.UserName },
+            //        { "@machineName", Environment.MachineName },
+            //        { "@processId", _processId },
+            //    });
 
-                sproc.Connection = c;
+            //sproc.Connection = c;
 
-                sproc.ExecuteNonQuery();
-            }
+            //sproc.ExecuteNonQuery();
         }
     }
 }
