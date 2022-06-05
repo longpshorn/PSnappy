@@ -95,7 +95,7 @@ namespace PSnappy
             var r = _scope.Resolve<IDatasetReporter>();
             try
             {
-                w.Reset(_connectionString);
+                w.ResetAsync(_connectionString);
                 r.Clear();
             }
             catch (Exception ex)

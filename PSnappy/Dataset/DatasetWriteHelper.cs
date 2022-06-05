@@ -9,7 +9,7 @@ namespace PSnappy
 {
     public interface IDatasetWriteHelper
     {
-        void Truncate(IDbConnection connection, string tablename);
+        Task TruncateAsync(IDbConnection connection, string tablename);
         Task ExecuteStoredProcedureAsync(string connectionString, string storedProcedureName, int spCommandTimeout = 30);
         Task WriteAsync<T>(
             IEnumerable<T> items,
@@ -42,11 +42,11 @@ namespace PSnappy
             }
         }
 
-        public void Truncate(IDbConnection connection, string tablename)
+        public async Task TruncateAsync(IDbConnection connection, string tablename)
         {
             try
             {
-                connection.TruncateTable(tablename);
+                await connection.TruncateTableAsync(tablename);
             }
             catch (Exception ex)
             {

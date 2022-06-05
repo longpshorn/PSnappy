@@ -6,7 +6,7 @@ namespace PSnappy
 {
     public static class SqlExtensions
     {
-        public static IDbCommand GetTextCommand(string text, int timeout = 30)
+        public static SqlCommand GetTextCommand(string text, int timeout = 30)
         {
             SqlCommand cmd = new SqlCommand
             {
@@ -17,11 +17,11 @@ namespace PSnappy
             return cmd;
         }
 
-        public static void TruncateTable(this IDbConnection connection, string tablename)
+        public static async Task TruncateTableAsync(this IDbConnection connection, string tablename)
         {
             var cmd = GetTextCommand(string.Format("TRUNCATE TABLE {0}", tablename));
-            cmd.Connection = connection;
-            cmd.ExecuteNonQuery();
+            cmd.Connection = (SqlConnection)connection;
+            await cmd.ExecuteNonQueryAsync();
         }
 
         public static async Task BulkCopyAsync(this SqlConnection connection, IDataReader reader, string destinationtable, int batchSize = 10000, int timeout = 30, bool useTabLock = true, SqlTransaction transaction = null)
