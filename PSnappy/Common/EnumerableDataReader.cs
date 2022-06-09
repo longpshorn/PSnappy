@@ -15,9 +15,9 @@ namespace PSnappy
 
     internal class EnumerableDataReader<T> : IDataReader
     {
-        IEnumerator<T> _source;
-        IList<Func<T, object>> _valuegetters;
-        int _fieldcount;
+        private readonly IEnumerator<T> _source;
+        private readonly IList<Func<T, object>> _valuegetters;
+        private readonly int _fieldcount;
         private readonly DataTable _table = new DataTable();
 
         internal EnumerableDataReader(IEnumerator<T> source, IList<Func<T, object>> valuegetters)

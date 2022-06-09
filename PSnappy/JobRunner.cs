@@ -118,7 +118,7 @@ namespace PSnappy
                 {
                     if (await BuildAsync())
                     {
-                        Calculate();
+                        await CalculateAsync();
                         await WriteAsync();
 
                         result = true;
@@ -159,14 +159,14 @@ namespace PSnappy
             }
         }
 
-        private void Calculate()
+        private async Task CalculateAsync()
         {
             var iserror = false;
             var sw = Stopwatch.StartNew();
             try
             {
                 var c = _scope.Resolve<IDatasetCalculator>();
-                c.Calculate();
+                await c.CalculateAsync();
             }
             catch (Exception ex)
             {

@@ -1,7 +1,9 @@
-﻿namespace PSnappy
+﻿using System.Threading.Tasks;
+
+namespace PSnappy
 {
     public interface IDatasetCalculator
     {
-        void Calculate();
+        Task CalculateAsync();
     }
 }
