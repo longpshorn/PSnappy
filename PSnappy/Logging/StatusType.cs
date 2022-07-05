@@ -13,28 +13,26 @@
     {
         public static string GetLabel(this StatusType type)
         {
-            switch (type)
+            return type switch
             {
-                case StatusType.Start: return "START";
-                case StatusType.Complete: return "COMPLETE";
-                case StatusType.Warning: return "WARN";
-                case StatusType.Error: return "ERROR";
-                case StatusType.Information:
-                default: return "INFO";
-            }
+                StatusType.Start => "START",
+                StatusType.Complete => "COMPLETE",
+                StatusType.Warning => "WARN",
+                StatusType.Error => "ERROR",
+                _ => "INFO",
+            };
         }
 
         public static string GetHistoryType(this StatusType type)
         {
-            switch (type)
+            return type switch
             {
-                case StatusType.Start: return "PSnappy Exection Started";
-                case StatusType.Complete: return "PSnappy Execution Complete";
-                case StatusType.Warning: return "PSnappy Warning";
-                case StatusType.Error: return "PSnappy Error";
-                case StatusType.Information:
-                default: return "PSnappy Information";
-            }
+                StatusType.Start => "PSnappy Exection Started",
+                StatusType.Complete => "PSnappy Execution Complete",
+                StatusType.Warning => "PSnappy Warning",
+                StatusType.Error => "PSnappy Error",
+                _ => "PSnappy Information",
+            };
         }
     }
 }

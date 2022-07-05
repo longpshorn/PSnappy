@@ -24,7 +24,7 @@ namespace PSnappy
         public IndexedCollection(Func<TValue, TKey> keyselector, Func<ICollection<TValue>> collectionFactory = null) : base()
         {
             _keyselector = keyselector;
-            collectionFactory = collectionFactory != null ? collectionFactory : DefaultCollectionFactory;
+            collectionFactory ??= DefaultCollectionFactory;
             _nullkeyeditems = collectionFactory();
         }
 

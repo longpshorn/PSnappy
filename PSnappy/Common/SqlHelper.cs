@@ -85,20 +85,24 @@ namespace PSnappy.Common
 
         public SqlCommand GetSPCommand(string sp, Dictionary<string, object> parameters = null, int timeout = 30)
         {
-            var cmd = new SqlCommand();
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.CommandText = sp;
-            cmd.CommandTimeout = timeout;
+            var cmd = new SqlCommand
+            {
+                CommandType = CommandType.StoredProcedure,
+                CommandText = sp,
+                CommandTimeout = timeout
+            };
             parameters?.ForEach(p => cmd.Parameters.Add(new SqlParameter(p.Key, p.Value)));
             return cmd;
         }
 
         public IDbCommand GetTextCommand(string text, int timeout = 30)
         {
-            SqlCommand cmd = new SqlCommand();
-            cmd.CommandType = CommandType.Text;
-            cmd.CommandText = text;
-            cmd.CommandTimeout = timeout;
+            SqlCommand cmd = new SqlCommand
+            {
+                CommandType = CommandType.Text,
+                CommandText = text,
+                CommandTimeout = timeout
+            };
             return cmd;
         }
 
@@ -109,8 +113,10 @@ namespace PSnappy.Common
 
         public IDbDataParameter CreateParameter(string name, DbType dbtype, object value)
         {
-            SqlParameter p = new SqlParameter(name, dbtype);
-            p.Value = value;
+            SqlParameter p = new SqlParameter(name, dbtype)
+            {
+                Value = value
+            };
             return p;
         }
 

@@ -53,14 +53,14 @@ namespace PSnappy
                 StatusChanged?.Invoke(this, e);
             }
 
-            Console.WriteLine($"{DateTime.Now} - {elapsed.TotalSeconds.ToString("N2").PadRight(10)} - {statustype.ToString().PadRight(11)} - {message}");
+            Console.WriteLine($"{DateTime.Now} - {elapsed.TotalSeconds,-10:N2} - {statustype,-11} - {message}");
 
             SaveToProcessHistory(e);
         }
 
         public virtual void LogException(Exception ex, string message = null)
         {
-            message = message != null ? message : ex.Message;
+            message ??= ex.Message;
             LogStatus(message, StatusType.Error);
             LogStatus(ex.ToString(), StatusType.Error);
         }
